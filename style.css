@@ -34,7 +34,7 @@ header .container {
 }
 
 .logo img {
-    height: 40px; /* Set a specific height for your logo. Adjust as needed. */
+    height: 85px; /* Set a specific height for your logo. Adjust as needed. */
     width: auto; /* Maintain aspect ratio */
     vertical-align: middle; /* Helps align the image if text is nearby (though here, it's just an image) */
 }
