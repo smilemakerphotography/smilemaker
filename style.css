@@ -1,10 +1,12 @@
-
+/* General Body Styles */
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     background: #fff;
     color: #333;
 }
+
+/* Header Styles */
 header {
     background: #000;
     padding: 1rem 0;
@@ -12,50 +14,107 @@ header {
     top: 0;
     z-index: 1000;
 }
+
 header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
 }
+
+/* --- MODIFIED LOGO STYLES --- */
 .logo {
-    color: #fff;
-    font-size: 1.5rem;
-    font-family: 'Playfair Display', serif;
-    text-decoration: none;
+    /* No need for color and font-size here as it's an image now */
+    /* color: #fff; */
+    /* font-size: 1.5rem; */
+    /* font-family: 'Playfair Display', serif; */
+    text-decoration: none; /* Keep this to ensure no underline if it's a link */
+    display: flex; /* Helps center the image if needed */
+    align-items: center; /* Vertically align image within the link */
 }
+
+.logo img {
+    height: 40px; /* Set a specific height for your logo. Adjust as needed. */
+    width: auto; /* Maintain aspect ratio */
+    vertical-align: middle; /* Helps align the image if text is nearby (though here, it's just an image) */
+}
+/* --- END MODIFIED LOGO STYLES --- */
+
+
 nav a {
     color: #fff;
     text-decoration: none;
     margin-left: 20px;
     font-weight: 500;
 }
+
 nav a:hover {
     color: #f5a623;
 }
+
+/* Hero Section (Slideshow Background) */
 .hero {
     height: 90vh;
-    background: url('banner.jpg') center/cover no-repeat;
-    position: relative;
+    /* Remove the original background image as it will be replaced by the slideshow */
+    /* background: url('banner.jpg') center/cover no-repeat; */
+    position: relative; /* Essential for positioning the slideshow */
     color: #fff;
+    overflow: hidden; /* Ensures images don't spill out */
 }
+
+/* Slideshow Container within Hero */
+.slideshow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place behind the overlay content */
+}
+
+.slideshow-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the entire container without distortion */
+    position: absolute; /* Position images on top of each other */
+    top: 0;
+    left: 0;
+    opacity: 0; /* Hide by default */
+    transition: opacity 1.5s ease-in-out; /* Smooth transition for fading */
+}
+
+.slideshow-container img.active {
+    opacity: 1; /* Show the active image */
+}
+
+/* Hero Overlay (Content on top of slideshow) */
 .hero .overlay {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.6); /* Adjusted for visual clarity over images */
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    position: relative; /* Needed to ensure z-index works for content */
+    z-index: 1; /* Ensure overlay content is above slideshow */
 }
+
 .hero h1 {
     font-size: 3rem;
     margin-bottom: 0.5rem;
+    position: relative; /* Ensure text is above the slideshow */
+    z-index: 2; /* Higher z-index than overlay for certainty */
 }
+
 .hero p {
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
 }
+
+/* Buttons */
 .btn, .btn-light {
     padding: 0.6rem 1.2rem;
     background: #f5a623;
@@ -63,27 +122,37 @@ nav a:hover {
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
+    position: relative; /* Ensure buttons are above the slideshow */
+    z-index: 2;
 }
+
 .btn-light {
     background: #fff;
     color: #000;
 }
+
+/* Section Common Styles */
 .section {
     padding: 3rem 2rem;
 }
+
 .section.dark {
     background: #f5f5f5;
 }
+
 .section h2 {
     text-align: center;
     margin-bottom: 2rem;
 }
+
+/* Service Cards */
 .service-cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
 }
+
 .card {
     padding: 1.5rem;
     background: #fff;
@@ -92,19 +161,80 @@ nav a:hover {
     width: 220px;
     text-align: center;
     font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Added subtle shadow */
 }
+
+/* Gallery Section - Fixed Size Images */
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px; /* Increased gap for better spacing */
+    margin-top: 30px;
+    justify-content: center; /* Centers items in the grid if there's extra space */
+    max-width: 1200px; /* Optional: limit gallery width for large screens */
+    margin-left: auto;
+    margin-right: auto;
 }
+
 .gallery img {
-    width: 100%;
-    border-radius: 10px;
+    width: 100%; /* Make image take full width of its grid cell */
+    height: 250px; /* Fixed height for all gallery images. Adjust as needed. */
+    object-fit: cover; /* Crucial: crops the image to fit the container */
+    display: block; /* Removes extra space below images */
+    border-radius: 10px; /* Kept your existing border-radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added subtle shadow for depth */
 }
+
+/* Footer Styles */
 footer {
     text-align: center;
     padding: 1rem;
     background: #000;
     color: white;
+}
+
+footer a {
+    color: #f5a623; /* Style for links in footer */
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    header .container {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    nav {
+        margin-top: 10px;
+    }
+
+    nav a {
+        margin: 0 10px;
+    }
+
+    .service-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 80%; /* Adjust card width for smaller screens */
+    }
+
+    .gallery {
+        grid-template-columns: 1fr; /* Single column on very small screens */
+    }
 }
