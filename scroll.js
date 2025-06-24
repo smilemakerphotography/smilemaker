@@ -1,46 +1,49 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Smooth scroll for "View Gallery" button
+document.addEventListener('DOMContentLoaded', () => {
+    // Smooth scroll for View Gallery button
     const viewGalleryBtn = document.querySelector('.hero .btn[href="#gallery"]');
-
     if (viewGalleryBtn) {
-        viewGalleryBtn.addEventListener('click', function (event) {
+        viewGalleryBtn.addEventListener('click', event => {
             event.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-
+            const targetSection = document.getElementById('gallery');
             if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     }
 
-    // Smooth scroll for other anchor links
+    // Smooth scroll for nav links
     document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', e => {
             e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            const targetId = anchor.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
 
-    // === Hamburger Menu Toggle ===
-    const toggleButton = document.querySelector('.mobile-menu-toggle');
-    const mobileNav = document.querySelector('nav.mobile-nav');
-
-    if (toggleButton && mobileNav) {
-        toggleButton.addEventListener('click', function () {
-            mobileNav.classList.toggle('active');
-            toggleButton.classList.toggle('active'); // For hamburger animation
+    // Hamburger toggle
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.nav-links');
+    if (toggle && nav) {
+        toggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
         });
     }
+});
+
+// Section fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, {
+  threshold: 0.1
+});
+
+document.querySelectorAll('.section').forEach(section => {
+  observer.observe(section);
 });
