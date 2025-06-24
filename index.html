@@ -1,84 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Smile Maker Photography</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Smile Maker Photography</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <a href="index.html" class="logo">
-                <img src="assets/logo.jpeg" alt="Smile Maker Photography Logo">
-            </a>
-            <nav>
-                <a href="#Home">Home</a>
-                <a href="#about">About</a>
-                <a href="#services">Services</a>
-                <a href="#gallery">Gallery</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
-    </header>
+  <header>
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.jpeg" alt="Smile Maker Photography Logo">
+      </a>
 
-    <section class="hero" id="Home">
-        <div class="overlay">
-            <div class="slideshow-container">
-                <!-- Slideshow images injected by slideshow.js -->
-            </div>
-            <h1>We Frame Emotions, Not Just Faces</h1>
-            <p>Wedding | Model | Portfolio | Outdoor Photography</p>
-            <a href="#gallery" class="btn" id="viewGalleryBtn">View Gallery</a>
-        </div>
-    </section>
+      <!-- Hamburger Menu Button -->
+      <button class="menu-toggle" aria-label="Toggle Navigation">&#9776;</button>
 
-    <section id="about" class="section">
-        <div class="container">
-            <h2>About Us</h2>
-            <p>At Smile Maker Photography, we capture timeless stories through the lens. Our passion lies in bringing memories to life—whether it's your big day, a professional portfolio, or a candid outdoor shoot.</p>
-            <a href="about.html" class="btn-light">Read More</a>
-        </div>
-    </section>
+      <!-- Navigation Menu -->
+      <nav class="nav-links">
+        <a href="#Home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <section id="services" class="section dark">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="service-cards">
-                <div class="card">Wedding Photography</div>
-                <div class="card">Model Shoots</div>
-                <div class="card">Portfolio Creation</div>
-                <div class="card">Outdoor Sessions</div>
-            </div>
-        </div>
-    </section>
+  <section class="hero">
+    <div class="overlay">
+      <div class="slideshow-container"></div>
+      <h1>We Frame Emotions, Not Just Faces</h1>
+      <p>Wedding | Model | Portfolio | Outdoor Photography</p>
+      <a href="#gallery" class="btn" id="viewGalleryBtn">View Gallery</a>
+    </div>
+  </section>
 
-    <section id="gallery" class="section">
-        <div class="container">
-            <h2>Gallery Preview</h2>
-            <div class="gallery">
-                <img src="gallery_images/gallery1.jpg" alt="Gallery image 1">
-                <img src="gallery_images/gallery2.jpg" alt="Gallery image 2">
-                <img src="gallery_images/gallery3.jpg" alt="Gallery image 3">
-                <img src="gallery_images/gallery4.jpg" alt="Gallery image 4">
-            </div>
-        </div>
-    </section>
+  <section id="about" class="section">
+    <div class="container">
+      <h2>About Us</h2>
+      <p>At Smile Maker Photography, we capture timeless stories through the lens. Our passion lies in bringing memories to life—whether it's your big day, a professional portfolio, or a candid outdoor shoot.</p>
+      <a href="about.html" class="btn-light">Read More</a>
+    </div>
+  </section>
 
-    <section id="contact" class="section dark">
-        <div class="container">
-            <h2>Enquire Now</h2>
-            <p>Drop us a message to book your next shoot.</p>
-            <a href="contact.html" class="btn">Go to Enquiry Form</a>
-        </div>
-    </section>
+  <section id="services" class="section dark">
+    <div class="container">
+      <h2>Our Services</h2>
+      <div class="service-cards">
+        <div class="card">Wedding Photography</div>
+        <div class="card">Model Shoots</div>
+        <div class="card">Portfolio Creation</div>
+        <div class="card">Outdoor Sessions</div>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-        <p>&copy; 2025 Smile Maker Photography | <a href="#">Instagram</a></p>
-    </footer>
+  <section id="gallery" class="section">
+    <div class="container">
+      <h2>Gallery Preview</h2>
+      <div class="gallery">
+        <img src="gallery_images/gallery1.jpg" alt="Gallery image 1">
+        <img src="gallery_images/gallery2.jpg" alt="Gallery image 2">
+        <img src="gallery_images/gallery3.jpg" alt="Gallery image 3">
+        <img src="gallery_images/gallery4.jpg" alt="Gallery image 4">
+      </div>
+    </div>
+  </section>
 
-    <script src="slideshow.js"></script>
-    <script src="scroll.js"></script>
+  <section id="contact" class="section dark">
+    <div class="container">
+      <h2>Enquire Now</h2>
+      <p>Drop us a message to book your next shoot.</p>
+      <a href="contact.html" class="btn">Go to Enquiry Form</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Smile Maker Photography | <a href="#">Instagram</a></p>
+  </footer>
+
+  <script src="slideshow.js"></script>
+  <script src="scroll.js"></script>
+  <script>
+    // Mobile nav toggle logic
+    document.addEventListener('DOMContentLoaded', function () {
+      const toggleButton = document.querySelector('.menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+
+      toggleButton.addEventListener('click', function () {
+        navLinks.classList.toggle('active');
+      });
+    });
+  </script>
 </body>
 </html>
