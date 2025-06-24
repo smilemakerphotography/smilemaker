@@ -1,32 +1,26 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Select the "View Gallery" button
+document.addEventListener('DOMContentLoaded', function () {
+    // Smooth scroll for "View Gallery" button
     const viewGalleryBtn = document.querySelector('.hero .btn[href="#gallery"]');
 
-    // Add a click event listener to the button
     if (viewGalleryBtn) {
-        viewGalleryBtn.addEventListener('click', function(event) {
-            // Prevent the default jump-to-anchor behavior
+        viewGalleryBtn.addEventListener('click', function (event) {
             event.preventDefault();
-
-            // Get the target section's ID from the href attribute
-            const targetId = this.getAttribute('href').substring(1); // Removes the '#'
+            const targetId = this.getAttribute('href').substring(1);
             const targetSection = document.getElementById(targetId);
 
             if (targetSection) {
-                // Use smooth scroll behavior
                 targetSection.scrollIntoView({
                     behavior: 'smooth',
-                    block: 'start' // Aligns the top of the element with the top of the viewport
+                    block: 'start'
                 });
             }
         });
     }
 
-    // Optional: Make other internal navigation links also smooth scroll
+    // Smooth scroll for other anchor links
     document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
 
@@ -38,4 +32,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // === Hamburger Menu Toggle ===
+    const toggleButton = document.querySelector('.mobile-menu-toggle');
+    const mobileNav = document.querySelector('nav.mobile-nav');
+
+    if (toggleButton && mobileNav) {
+        toggleButton.addEventListener('click', function () {
+            mobileNav.classList.toggle('active');
+            toggleButton.classList.toggle('active'); // For hamburger animation
+        });
+    }
 });

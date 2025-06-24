@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Smile Maker Photography</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
   <header>
     <div class="container">
       <a href="index.html" class="logo">
-        <img src="assets/logo.jpeg" alt="Smile Maker Photography Logo">
+        <img src="assets/logo.jpeg" alt="Smile Maker Photography Logo" />
       </a>
 
-      <!-- Hamburger Menu Button -->
-      <button class="menu-toggle" aria-label="Toggle Navigation">&#9776;</button>
+      <!-- Hamburger Menu -->
+      <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
 
-      <!-- Navigation Menu -->
       <nav class="nav-links">
         <a href="#Home">Home</a>
+        <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#gallery">Gallery</a>
-        <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
@@ -61,10 +60,10 @@
     <div class="container">
       <h2>Gallery Preview</h2>
       <div class="gallery">
-        <img src="gallery_images/gallery1.jpg" alt="Gallery image 1">
-        <img src="gallery_images/gallery2.jpg" alt="Gallery image 2">
-        <img src="gallery_images/gallery3.jpg" alt="Gallery image 3">
-        <img src="gallery_images/gallery4.jpg" alt="Gallery image 4">
+        <img src="gallery_images/gallery1.jpg" alt="Gallery image 1" />
+        <img src="gallery_images/gallery2.jpg" alt="Gallery image 2" />
+        <img src="gallery_images/gallery3.jpg" alt="Gallery image 3" />
+        <img src="gallery_images/gallery4.jpg" alt="Gallery image 4" />
       </div>
     </div>
   </section>
@@ -81,16 +80,16 @@
     <p>&copy; 2025 Smile Maker Photography | <a href="#">Instagram</a></p>
   </footer>
 
+  <!-- Scripts -->
   <script src="slideshow.js"></script>
   <script src="scroll.js"></script>
   <script>
-    // Mobile nav toggle logic
+    // Hamburger Menu Toggle
     document.addEventListener('DOMContentLoaded', function () {
-      const toggleButton = document.querySelector('.menu-toggle');
-      const navLinks = document.querySelector('.nav-links');
-
-      toggleButton.addEventListener('click', function () {
-        navLinks.classList.toggle('active');
+      const toggle = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('.nav-links');
+      toggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
       });
     });
   </script>
