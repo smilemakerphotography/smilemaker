@@ -79,26 +79,29 @@ header .container {
    Hero Section
 ========================= */
 .hero {
-  height: 90vh;
+  height: 100vh;
   position: relative;
-  color: var(--light);
+  color: #fff;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
 }
 
 .slideshow-container {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
   z-index: -1;
 }
 
 .slideshow-container img {
-  position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
   opacity: 0;
   transition: opacity 1.5s ease-in-out;
 }
@@ -107,11 +110,43 @@ header .container {
   opacity: 1;
 }
 
-.hero .overlay {
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 2rem;
+.overlay {
+  position: relative;
   width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
+
+.hero-content {
+  max-width: 700px;
+  padding: 1rem;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn {
+  padding: 0.6rem 1.2rem;
+  background: #f5a623;
+  color: #000;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
 
 /* =========================
    Buttons
@@ -272,5 +307,49 @@ footer a:hover {
 
   .card {
     width: 95%;
+  }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* prevent unwanted horizontal scroll */
+}
+
+/* Show toggle only on small screens */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  height: 3px;
+  width: 25px;
+  background: white;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+
+/* Activate on smaller screens */
+@media (max-width: 1024px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: var(--dark);
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  nav.desktop-nav {
+    display: none;
   }
 }
