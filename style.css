@@ -1,4 +1,8 @@
 /* General Body Styles */
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -20,27 +24,23 @@ header .container {
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
+    flex-wrap: wrap;
 }
 
-/* --- MODIFIED LOGO STYLES --- */
+/* Logo Styles */
 .logo {
-    /* No need for color and font-size here as it's an image now */
-    /* color: #fff; */
-    /* font-size: 1.5rem; */
-    /* font-family: 'Playfair Display', serif; */
-    text-decoration: none; /* Keep this to ensure no underline if it's a link */
-    display: flex; /* Helps center the image if needed */
-    align-items: center; /* Vertically align image within the link */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
 .logo img {
-    height: 85px; /* Set a specific height for your logo. Adjust as needed. */
-    width: auto; /* Maintain aspect ratio */
-    vertical-align: middle; /* Helps align the image if text is nearby (though here, it's just an image) */
+    height: 85px;
+    width: auto;
+    vertical-align: middle;
 }
-/* --- END MODIFIED LOGO STYLES --- */
 
-
+/* Navigation */
 nav a {
     color: #fff;
     text-decoration: none;
@@ -52,69 +52,68 @@ nav a:hover {
     color: #f5a623;
 }
 
-/* Hero Section (Slideshow Background) */
+/* Hero Section */
 .hero {
     height: 90vh;
-    /* Remove the original background image as it will be replaced by the slideshow */
-    /* background: url('banner.jpg') center/cover no-repeat; */
-    position: relative; /* Essential for positioning the slideshow */
+    position: relative;
     color: #fff;
-    overflow: hidden; /* Ensures images don't spill out */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-/* Slideshow Container within Hero */
 .slideshow-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Place behind the overlay content */
+    z-index: -1;
 }
 
 .slideshow-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cover the entire container without distortion */
-    position: absolute; /* Position images on top of each other */
+    object-fit: cover;
+    position: absolute;
     top: 0;
     left: 0;
-    opacity: 0; /* Hide by default */
-    transition: opacity 1.5s ease-in-out; /* Smooth transition for fading */
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
 }
 
 .slideshow-container img.active {
-    opacity: 1; /* Show the active image */
+    opacity: 1;
 }
 
-/* Hero Overlay (Content on top of slideshow) */
 .hero .overlay {
-    background-color: rgba(0, 0, 0, 0.6); /* Adjusted for visual clarity over images */
+    background-color: rgba(0, 0, 0, 0.6);
     height: 100%;
+    width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    position: relative; /* Needed to ensure z-index works for content */
-    z-index: 1; /* Ensure overlay content is above slideshow */
+    position: relative;
+    z-index: 1;
 }
 
 .hero h1 {
     font-size: 3rem;
     margin-bottom: 0.5rem;
-    position: relative; /* Ensure text is above the slideshow */
-    z-index: 2; /* Higher z-index than overlay for certainty */
+    z-index: 2;
 }
 
 .hero p {
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
-    position: relative;
     z-index: 2;
 }
 
-/* Buttons */
 .btn, .btn-light {
     padding: 0.6rem 1.2rem;
     background: #f5a623;
@@ -122,7 +121,6 @@ nav a:hover {
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    position: relative; /* Ensure buttons are above the slideshow */
     z-index: 2;
 }
 
@@ -131,7 +129,7 @@ nav a:hover {
     color: #000;
 }
 
-/* Section Common Styles */
+/* Sections */
 .section {
     padding: 3rem 2rem;
 }
@@ -161,31 +159,30 @@ nav a:hover {
     width: 220px;
     text-align: center;
     font-weight: 600;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Added subtle shadow */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* Gallery Section - Fixed Size Images */
+/* Gallery */
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px; /* Increased gap for better spacing */
+    gap: 20px;
     margin-top: 30px;
-    justify-content: center; /* Centers items in the grid if there's extra space */
-    max-width: 1200px; /* Optional: limit gallery width for large screens */
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .gallery img {
-    width: 100%; /* Make image take full width of its grid cell */
-    height: 250px; /* Fixed height for all gallery images. Adjust as needed. */
-    object-fit: cover; /* Crucial: crops the image to fit the container */
-    display: block; /* Removes extra space below images */
-    border-radius: 10px; /* Kept your existing border-radius */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added subtle shadow for depth */
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Footer Styles */
+/* Footer */
 footer {
     text-align: center;
     padding: 1rem;
@@ -194,7 +191,7 @@ footer {
 }
 
 footer a {
-    color: #f5a623; /* Style for links in footer */
+    color: #f5a623;
     text-decoration: none;
 }
 
@@ -202,16 +199,8 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Responsive adjustments for smaller screens */
+/* Responsive Styles */
 @media (max-width: 768px) {
-    .hero h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero p {
-        font-size: 1rem;
-    }
-
     header .container {
         flex-direction: column;
         padding: 1rem;
@@ -225,16 +214,24 @@ footer a:hover {
         margin: 0 10px;
     }
 
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
     .service-cards {
         flex-direction: column;
         align-items: center;
     }
 
     .card {
-        width: 80%; /* Adjust card width for smaller screens */
+        width: 80%;
     }
 
     .gallery {
-        grid-template-columns: 1fr; /* Single column on very small screens */
+        grid-template-columns: 1fr;
     }
 }
