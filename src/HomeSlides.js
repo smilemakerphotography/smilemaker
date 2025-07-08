@@ -19,8 +19,6 @@ function HomeSlides() {
     return () => clearTimeout(timeoutRef.current);
   }, [current]);
 
-  // Responsive: adjust h1 and p font size for mobile
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600;
   return (
     <section id="home" className="hero-slideshow" style={{ marginBottom: 0, paddingBottom: 0 }}>
       {slides.map((src, idx) => (
@@ -32,10 +30,10 @@ function HomeSlides() {
         />
       ))}
       <div className="hero-overlay">
-        <h1 style={{ fontSize: isMobile ? '2.1rem' : '3.2vw', lineHeight: isMobile ? 1.18 : 1.1, textAlign: 'center', color: '#fff', fontWeight: 900 }}>
+        <h1 >
           We Frame Emotions, Not<br />Just Faces
         </h1>
-        <p style={{ fontSize: isMobile ? '1.08rem' : '1.5vw', color: '#f5d488', marginBottom: isMobile ? '1.2rem' : '2.5rem', textAlign: 'center', fontWeight: 600 }}>
+        <p style={{ fontSize: '1.5vw', color: '#f5d488', marginBottom: '2.5rem' }}>
           Wedding | Model | Portfolio | Outdoor Photography
         </p>
         <button
@@ -43,10 +41,10 @@ function HomeSlides() {
             background: '#f5a623',
             color: '#222',
             fontWeight: 'bold',
-            fontSize: isMobile ? '1.08rem' : '1.2rem',
+            fontSize: '1.2rem',
             border: 'none',
             borderRadius: '6px',
-            padding: isMobile ? '0.7rem 1.5rem' : '0.9rem 2.2rem',
+            padding: '0.9rem 2.2rem',
             cursor: 'pointer',
             boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
           }}

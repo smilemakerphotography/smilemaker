@@ -32,16 +32,6 @@ function Service() {
   const [hovered, setHovered] = useState(null);
   const [modal, setModal] = useState(null);
 
-  // Helper to set shootType in contact form
-  const handleEnquiry = (shootType) => {
-    // Save shootType to sessionStorage so Contact can read it
-    if (typeof window !== 'undefined') {
-      window.sessionStorage.setItem('autofillShootType', shootType);
-    }
-    window.location.href = '#contact';
-    setModal(null);
-  };
-
   React.useEffect(() => {
     const id = 'caveat-font';
     if (!document.getElementById(id)) {
@@ -78,8 +68,7 @@ function Service() {
                   className="service-popup-tip service-popup-btn"
                   style={{
                     display: 'inline-block',
-                    marginTop: -10,
-                    marginBottom: 8,
+                    marginTop: 8,
                     marginLeft: 0,
                     marginRight: 0,
                     alignSelf: 'flex-start',
@@ -126,7 +115,7 @@ function Service() {
                   cursor: 'pointer',
                   transition: 'background 0.2s, color 0.2s',
                 }}
-                onClick={() => handleEnquiry(services[modal].title)}
+                onClick={() => window.location.href = '#contact'}
               >
                 Enquiry
               </button>

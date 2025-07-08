@@ -1,4 +1,8 @@
 import React from 'react';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6d36a3b (inital push)
 import './App.css';
 import './smilemaker.css';
 import HomeSlides from './HomeSlides';
@@ -16,6 +20,7 @@ if (!document.getElementById('caveat-font')) {
   fontLink.id = 'caveat-font';
   document.head.appendChild(fontLink);
 }
+
 
 function Footer() {
   return (
@@ -50,8 +55,10 @@ function App() {
       <HomeSlides />
       <About />
       <Service />
-      <Gallery/>
-      <Contact/>
+
+      <Gallery/>  
+      <Contact/>  
+
       <Footer />
     </div>
   );
