@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './App.css';
 import './smilemaker.css';
 import HomeSlides from './HomeSlides';
@@ -8,6 +7,7 @@ import About from './About';
 import Service from './Service';
 import Contact from './Contact';
 import Gallery from './Gallery';
+
 // Google Fonts: Caveat
 if (!document.getElementById('caveat-font')) {
   const fontLink = document.createElement('link');
@@ -16,7 +16,6 @@ if (!document.getElementById('caveat-font')) {
   fontLink.id = 'caveat-font';
   document.head.appendChild(fontLink);
 }
-
 
 function Footer() {
   return (
@@ -51,8 +50,8 @@ function App() {
       <HomeSlides />
       <About />
       <Service />
-      <Gallery/>  
-      <Contact/>  
+      <Gallery/>
+      <Contact/>
       <Footer />
     </div>
   );
