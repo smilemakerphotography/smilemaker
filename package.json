@@ -1,6 +1,6 @@
 {
-  "homepage": "https://smilemakerphotography.github.io/smilemaker/",
   "name": "frontend",
+  "homepage": "https://smilemakerphotography.github.io/smilemaker/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
