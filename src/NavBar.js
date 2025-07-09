@@ -7,6 +7,17 @@ import './App.css';
 
 
 function NavBar() {
+  // Add Amatic SC font if not already loaded
+  useEffect(() => {
+    const id = 'amatic-font';
+    if (!document.getElementById(id)) {
+      const link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap';
+      document.head.appendChild(link);
+    }
+  }, []);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -45,9 +56,28 @@ function NavBar() {
 
   return (
     <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${hidden ? ' navbar--hidden' : ''}`}> 
-      <div className="navbar__logo">
+      <div className="navbar__logo" style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
         <img src={logo} alt="Logo" className={`navbar__logo-img${scrolled ? ' navbar__logo-img--small' : ''}`} style={{ transition: 'all 0.3s' }} />
-        <span className="navbar__brand" style={{ transition: 'all 0.3s' }}></span>
+        <span
+          className="navbar__brand desktop-only"
+          style={{
+            fontFamily: 'Amatic SC, cursive',
+            fontWeight: 900,
+            fontSize: scrolled ? 28 : 40,
+            color: '#bfa76a', // greyish gold
+            letterSpacing: 1,
+            transition: 'all 0.3s',
+            marginLeft: 4,
+           
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2
+          }}
+        >
+          <span style={{fontSize: scrolled ? 38 : 54, lineHeight: 1}}>S</span>mile{' '}
+          <span style={{fontSize: scrolled ? 38 : 54, lineHeight: 1}}>M</span>aker{' '}
+          <span style={{fontSize: scrolled ? 38 : 54, lineHeight: 1}}>P</span>hotography
+        </span>
       </div>
       <div className={`navbar__menu${menuOpen ? ' navbar__menu--open' : ''}`}> 
         <a href="#home" onClick={handleLinkClick}>Home</a>

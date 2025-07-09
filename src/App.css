@@ -1,3 +1,17 @@
+/* NavBar menu link hover color */
+.navbar__menu a:hover {
+  color: #f5a623 !important;
+  transition: color 0.2s;
+}
+/* Show .desktop-only only on desktop screens */
+.desktop-only {
+  display: none !important;
+}
+@media (min-width: 992px) {
+  .desktop-only {
+    display: flex !important;
+  }
+}
 /* Full view hero slideshow styles */
 .hero-slideshow {
   position: relative;

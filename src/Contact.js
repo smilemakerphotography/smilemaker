@@ -3,8 +3,6 @@ import emailjs from 'emailjs-com';
 
 function Contact() {
   const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState(null);
   const [dates, setDates] = useState(['']);
   const [shootType, setShootType] = useState('');
   const shootTypeRef = useRef(null);
@@ -97,8 +95,6 @@ function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSending(true);
-    setError(null);
-    setSent(false);
     const form = e.target;
     // Prepare date fields as a comma-separated string
     const dateString = dates.filter(Boolean).join(', ');
@@ -113,7 +109,6 @@ function Contact() {
     };
     emailjs.send('service_mo5rblx', 'template_4ylzxhk', formData, 'qxKPNzQuUeDmCJRPY')
       .then(() => {
-        setSent(true);
         setSending(false);
         form.reset();
         setDates(['']);
@@ -122,8 +117,7 @@ function Contact() {
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), 2000);
       })
-      .catch((err) => {
-        setError('Failed to send. Please try again.');
+      .catch(() => {
         setSending(false);
         setPopupType('error');
         setPopupMessage('Failed to send. Please try again.');
@@ -190,6 +184,8 @@ function Contact() {
             <option value="Model Shoots">Model</option>
             <option value="Portfolio Creation">Portfolio</option>
             <option value="Outdoor Sessions">Outdoor</option>
+            <option value="Baby Shoots">Baby Shoots</option>
+            <option value="Maternity Photography">Maternity Photography</option>
             <option value="other">Other</option>
           </select>
         </label>

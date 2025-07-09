@@ -36,7 +36,7 @@ function HomeSlides() {
           We Frame Emotions, Not<br />Just Faces
         </h1>
         <p style={{ fontSize: isMobile ? '1.08rem' : '1.5vw', color: '#f5d488', marginBottom: isMobile ? '1.2rem' : '2.5rem', textAlign: 'center', fontWeight: 600 }}>
-          Wedding | Model | Portfolio | Outdoor Photography
+          Wedding | Model | Portfolio | Outdoor Photography | Baby Shoots
         </p>
         <button
           style={{

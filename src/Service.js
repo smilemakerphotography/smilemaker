@@ -25,6 +25,12 @@ const services = [
     image: require('./images/service-outdoor.jpg'),
     short: 'Natural light, beautiful locations, unforgettable photos.',
     details: 'Enjoy a photoshoot in scenic outdoor locations. We use natural light and creative compositions to capture your personality and the beauty of the environment.'
+  },
+  {
+    title: 'Baby Shoots',
+    image: require('./images/service-baby.jpg'),
+    short: 'Adorable moments, forever memories.',
+    details: 'Capture the precious early days of your baby with our gentle, creative, and safe baby photography sessions. We create a relaxed environment to ensure beautiful, heartwarming images.'
   }
 ];
 
@@ -69,7 +75,18 @@ function Service() {
             aria-label={`View details for ${svc.title}`}
           >
         <img src={svc.image} alt={svc.title} className="service-img" style={{ width: '100%', height: 200, objectFit: 'cover', borderRadius: '16px 16px 0 0' }} />
-            <div className="service-caption" style={{ fontWeight: 'bold' }}>{svc.title}</div>
+            <div
+              className="service-caption"
+              style={{
+                fontWeight: 'bold',
+                position: 'relative',
+                top: hovered === idx ? 0 : 50,
+                transition: 'top 0.3s cubic-bezier(.4,2,.6,1)',
+                zIndex: 2
+              }}
+            >
+              {svc.title}
+            </div>
             {hovered === idx && (
               <div className="service-popup">
                 
