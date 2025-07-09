@@ -56,10 +56,10 @@ function NavBar() {
         <a href="#gallery" onClick={handleLinkClick}>Gallery</a>
         <a href="#contact" onClick={handleLinkClick}>Contact</a>
       </div>
-      <button className="navbar__toggle" onClick={handleMenuToggle} aria-label="Toggle menu">
-        <span className="navbar__hamburger"></span>
-        <span className="navbar__hamburger"></span>
-        <span className="navbar__hamburger"></span>
+      <button className="navbar__toggle" onClick={handleMenuToggle} aria-label="Toggle menu" style={{ background: 'none', border: 'none', padding: 0, marginLeft: 8, cursor: 'pointer' }}>
+        <span className="navbar__hamburger" style={{ background: '#f5a623' }}></span>
+        <span className="navbar__hamburger" style={{ background: '#f5a623' }}></span>
+        <span className="navbar__hamburger" style={{ background: '#f5a623' }}></span>
       </button>
     </nav>
   );
