@@ -1,23 +1,28 @@
 {
   "files": {
-    "main.css": "/smilemaker/static/css/main.67e541f2.css",
-    "main.js": "/smilemaker/static/js/main.53786f62.js",
+    "main.css": "/smilemaker/static/css/main.cc3a900b.css",
+    "main.js": "/smilemaker/static/js/main.25224aac.js",
     "static/js/453.670e15c7.chunk.js": "/smilemaker/static/js/453.670e15c7.chunk.js",
     "static/media/logo.png": "/smilemaker/static/media/logo.64e6dcfe32173a26e63b.png",
     "static/media/service-portfolio.jpg": "/smilemaker/static/media/service-portfolio.702ef876489868409cd8.jpg",
+    "static/media/portfolio-creation-4.jpg": "/smilemaker/static/media/portfolio-creation-4.8ae8d3942d957af322b1.jpg",
     "static/media/service-outdoor.jpg": "/smilemaker/static/media/service-outdoor.9128ecb8e018a48bc7d3.jpg",
+    "static/media/service-baby.jpg": "/smilemaker/static/media/service-baby.259db11954436540cbab.jpg",
     "static/media/service-wedding.jpeg": "/smilemaker/static/media/service-wedding.8bbc3978ef76809c15ba.jpeg",
+    "static/media/portfolio-creation-2.jpg": "/smilemaker/static/media/portfolio-creation-2.5a2bf95acec3b8f38d5f.jpg",
+    "static/media/portfolio-creation-3.jpg": "/smilemaker/static/media/portfolio-creation-3.8e171652ccd6f3b4fa25.jpg",
+    "static/media/portfolio-creation-1.jpg": "/smilemaker/static/media/portfolio-creation-1.cb5089f851a0c9694aa1.jpg",
     "static/media/service-model.jpeg": "/smilemaker/static/media/service-model.0a910e44c9986f9243e4.jpeg",
     "static/media/hero-slide3.jpg": "/smilemaker/static/media/hero-slide3.d6c4467630cf6529200a.jpg",
     "static/media/hero-slide2.jpg": "/smilemaker/static/media/hero-slide2.9aa46c4cd6076fd790e2.jpg",
     "static/media/hero-slide1.jpg": "/smilemaker/static/media/hero-slide1.57c430f5b9f498daed3d.jpg",
     "index.html": "/smilemaker/index.html",
-    "main.67e541f2.css.map": "/smilemaker/static/css/main.67e541f2.css.map",
-    "main.53786f62.js.map": "/smilemaker/static/js/main.53786f62.js.map",
+    "main.cc3a900b.css.map": "/smilemaker/static/css/main.cc3a900b.css.map",
+    "main.25224aac.js.map": "/smilemaker/static/js/main.25224aac.js.map",
     "453.670e15c7.chunk.js.map": "/smilemaker/static/js/453.670e15c7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.67e541f2.css",
-    "static/js/main.53786f62.js"
+    "static/css/main.cc3a900b.css",
+    "static/js/main.25224aac.js"
   ]
 }
