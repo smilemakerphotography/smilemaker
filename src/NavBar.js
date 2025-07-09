@@ -20,18 +20,9 @@ function NavBar() {
   }, []);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const lastScrollY = React.useRef(window.scrollY);
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      if (window.scrollY > lastScrollY.current && window.scrollY > 100) {
-        setHidden(true); // scrolling down
-      } else {
-        setHidden(false); // scrolling up
-      }
-      lastScrollY.current = window.scrollY;
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -55,29 +46,30 @@ function NavBar() {
   };
 
   return (
-    <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${hidden ? ' navbar--hidden' : ''}`}> 
+    <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}> 
       <div className="navbar__logo" style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
         <img src={logo} alt="Logo" className={`navbar__logo-img${scrolled ? ' navbar__logo-img--small' : ''}`} style={{ transition: 'all 0.3s' }} />
-        <span
-          className="navbar__brand desktop-only"
-          style={{
-            fontFamily: 'Amatic SC, cursive',
-            fontWeight: 900,
-            fontSize: scrolled ? 28 : 40,
-            color: '#bfa76a', // greyish gold
-            letterSpacing: 1,
-            transition: 'all 0.3s',
-            marginLeft: 4,
-           
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2
-          }}
-        >
-          <span style={{fontSize: scrolled ? 38 : 54, lineHeight: 1}}>S</span>mile{' '}
-          <span style={{fontSize: scrolled ? 38 : 54, lineHeight: 1}}>M</span>aker{' '}
-          <span style={{fontSize: scrolled ? 38 : 54, lineHeight: 1}}>P</span>hotography
-        </span>
+        {scrolled && (
+          <span
+            className="navbar__brand desktop-only"
+            style={{
+              fontFamily: 'Amatic SC, cursive',
+              fontWeight: 900,
+              fontSize: 28,
+              color: '#bfa76a',
+              letterSpacing: 1,
+              transition: 'all 0.3s',
+              marginLeft: 4,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2
+            }}
+          >
+            <span style={{fontSize: 38, lineHeight: 1}}>S</span>mile{' '}
+            <span style={{fontSize: 38, lineHeight: 1}}>M</span>aker{' '}
+            <span style={{fontSize: 38, lineHeight: 1}}>P</span>hotography
+          </span>
+        )}
       </div>
       <div className={`navbar__menu${menuOpen ? ' navbar__menu--open' : ''}`}> 
         <a href="#home" onClick={handleLinkClick}>Home</a>
