@@ -1,3 +1,19 @@
+/* Hide navbar only on desktop/tablet when scrolling down, always show on mobile */
+@media (max-width: 700px) {
+  .navbar--hidden {
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
+@media (min-width: 701px) {
+  .navbar--hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+}
 /* NavBar menu link hover color */
 .navbar__menu a:hover {
   color: #f5a623 !important;
