@@ -212,7 +212,7 @@ function Service() {
 }
 
 // PhotoGridPopup component (must be outside Service)
-function PhotoGridPopup({ service, onClose, onPhotoClick }) {
+export function PhotoGridPopup({ service, onClose, onPhotoClick }) {
   return (
     <div className="service-more-bg" onClick={onClose} style={{ position: 'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'rgba(0,0,0,0.55)', zIndex: 10000, display:'flex', alignItems:'center', justifyContent:'center' }}>
       <div className="service-more-grid glass" onClick={e => e.stopPropagation()} style={{
@@ -299,3 +299,4 @@ function PhotoGridPopup({ service, onClose, onPhotoClick }) {
 }
 
 export default Service;
+export { Service, services };

@@ -1,7 +1,5 @@
-import React from 'react';
-
-
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { services, PhotoGridPopup } from './Service';
 
 const galleryImages = [
   require('./images/hero-slide1.jpg'),
@@ -17,6 +15,8 @@ const galleryImages = [
 function Gallery() {
   const [current, setCurrent] = useState(0);
   const [modal, setModal] = useState(null);
+  const [showCategoryPopup, setShowCategoryPopup] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const timeoutRef = useRef(null);
   // Drag code removed
 
@@ -129,6 +129,107 @@ function Gallery() {
             onClick={e => e.stopPropagation()}
           />
         </div>
+      )}
+
+      {/* More button and category popup */}
+      <button
+        style={{
+          margin: '24px 0 0 0',
+          padding: '12px 36px',
+          borderRadius: 24,
+          background: 'linear-gradient(135deg,#f5a623 70%,#f5d488 100%)',
+          color: '#222',
+          fontWeight: 700,
+          fontSize: '1.1rem',
+          border: 'none',
+          boxShadow: '0 4px 24px 0 rgba(31, 38, 135, 0.10)',
+          cursor: 'pointer',
+          transition: 'background 0.2s, color 0.2s',
+        }}
+        onClick={() => setShowCategoryPopup(true)}
+      >
+        more
+      </button>
+
+      {showCategoryPopup && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.55)',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onClick={() => setShowCategoryPopup(false)}
+        >
+          <div
+            style={{
+              background: 'rgba(255,255,255,0.95)',
+              borderRadius: 20,
+              padding: 32,
+              minWidth: 260,
+              boxShadow: '0 8px 32px rgba(31,38,135,0.18)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 18,
+              alignItems: 'center',
+              position: 'relative',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <h3 style={{marginBottom: 12, fontWeight: 700, fontSize: 22, color: '#222'}}>Select Category</h3>
+            {services.map((svc, idx) => (
+              <button
+                key={svc.title}
+                style={{
+                  width: 200,
+                  padding: '10px 0',
+                  borderRadius: 16,
+                  background: '#f5a623',
+                  color: '#222',
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  border: 'none',
+                  marginBottom: 4,
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 8px #f5a62322',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+                onClick={() => { setSelectedCategory(idx); setShowCategoryPopup(false); }}
+              >
+                {svc.title}
+              </button>
+            ))}
+            <button
+              onClick={() => setShowCategoryPopup(false)}
+              style={{
+                marginTop: 12,
+                background: 'none',
+                color: '#888',
+                border: 'none',
+                fontSize: 18,
+                cursor: 'pointer',
+                textDecoration: 'underline',
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Service PhotoGridPopup for selected category */}
+      {typeof selectedCategory === 'number' && (
+        <PhotoGridPopup
+          service={services[selectedCategory]}
+          onClose={() => setSelectedCategory(null)}
+          onPhotoClick={() => {}}
+        />
       )}
     </section>
   );
