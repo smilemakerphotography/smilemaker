@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import logo from './images/logo.png'; // Adjust the path to your logo image
-
-
 import './App.css';
 
 
