@@ -98,7 +98,7 @@
 
 
 .App {
-  padding-top: 80px;
+  padding-top: 0 !important;
 }
 .navbar {
   transition: padding 0.3s, box-shadow 0.3s, transform 0.3s !important;
@@ -176,6 +176,7 @@
   .navbar {
     width: 100%;
     min-width: 0;
+    padding: 12px 8px;
   }
   .navbar__menu {
     position: absolute;
