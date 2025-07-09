@@ -1,8 +1,6 @@
 import React from 'react';
-<<<<<<< HEAD
-=======
 
->>>>>>> 6d36a3b (inital push)
+
 import './App.css';
 import './smilemaker.css';
 import HomeSlides from './HomeSlides';
