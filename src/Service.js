@@ -4,7 +4,7 @@ import './Service.css';
 const services = [
   {
     title: 'Wedding Photography',
-    image: require('./images/service-wedding.jpeg'),
+    image: require('./images/service-wedding.jpg'),
     short: 'Capturing your special day with elegance and emotion.',
     details: 'Our wedding photography service ensures every magical moment is beautifully preserved, from candid smiles to grand celebrations. We blend creativity and professionalism to deliver timeless memories.'
   },

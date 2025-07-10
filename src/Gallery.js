@@ -5,7 +5,7 @@ const galleryImages = [
   require('./images/hero-slide1.jpg'),
   require('./images/hero-slide2.jpg'),
   require('./images/hero-slide3.jpg'),
-  require('./images/service-wedding.jpeg'),
+  require('./images/service-wedding.jpg'),
   require('./images/service-model.jpeg'),
   require('./images/service-portfolio.jpg'),
   require('./images/service-outdoor.jpg'),
@@ -17,8 +17,8 @@ function Gallery() {
   const [modal, setModal] = useState(null);
   const [showCategoryPopup, setShowCategoryPopup] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
   const timeoutRef = useRef(null);
-  // Drag code removed
 
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
@@ -228,8 +228,41 @@ function Gallery() {
         <PhotoGridPopup
           service={services[selectedCategory]}
           onClose={() => setSelectedCategory(null)}
-          onPhotoClick={() => {}}
+          onPhotoClick={setSelectedPhoto}
         />
+      )}
+
+      {/* Large photo popup for category grid */}
+      {selectedPhoto && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(30,30,30,0.65)',
+            backdropFilter: 'blur(6px)',
+            zIndex: 10001,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onClick={() => setSelectedPhoto(null)}
+        >
+          <img
+            src={selectedPhoto}
+            alt="Large view"
+            style={{
+              maxWidth: '90vw',
+              maxHeight: '80vh',
+              borderRadius: 20,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
+              background: '#fff',
+            }}
+            onClick={e => e.stopPropagation()}
+          />
+        </div>
       )}
     </section>
   );
