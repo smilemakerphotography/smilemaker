@@ -3,7 +3,7 @@ import { services, PhotoGridPopup } from './Service';
 
 // Dynamically import all images in ./images
 const importAll = (r) => r.keys().map(r);
-const galleryImages = importAll(require.context('./images', false, /\.(jpe?g|png|webp|gif)$/));
+const galleryImages = importAll(require.context('./images', false, /\.(jpe?g|webp)$/));
 
 function Gallery() {
   const [current, setCurrent] = useState(0);
