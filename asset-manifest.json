@@ -1,11 +1,10 @@
 {
   "files": {
     "main.css": "/smilemaker/static/css/main.cc3a900b.css",
-    "main.js": "/smilemaker/static/js/main.8d0ad8a8.js",
+    "main.js": "/smilemaker/static/js/main.cfada48a.js",
     "static/js/453.670e15c7.chunk.js": "/smilemaker/static/js/453.670e15c7.chunk.js",
     "static/media/hero-slide1.jpg": "/smilemaker/static/media/hero-slide1.57f115fe72f20ff600ba.jpg",
     "static/media/wedding-photography-1.jpg": "/smilemaker/static/media/wedding-photography-1.57f115fe72f20ff600ba.jpg",
-    "static/media/wedding-photography-7.jpg": "/smilemaker/static/media/wedding-photography-7.aded55152fa8365856a1.jpg",
     "static/media/wedding-photography-3.jpg": "/smilemaker/static/media/wedding-photography-3.39c39f784efaa1885786.jpg",
     "static/media/wedding-photography-6.jpg": "/smilemaker/static/media/wedding-photography-6.a3fa035d1a42387a28c9.jpg",
     "static/media/wedding-photography-4.jpg": "/smilemaker/static/media/wedding-photography-4.6c0d691f446795126421.jpg",
@@ -26,11 +25,11 @@
     "static/media/hero-slide3.jpg": "/smilemaker/static/media/hero-slide3.9aa46c4cd6076fd790e2.jpg",
     "index.html": "/smilemaker/index.html",
     "main.cc3a900b.css.map": "/smilemaker/static/css/main.cc3a900b.css.map",
-    "main.8d0ad8a8.js.map": "/smilemaker/static/js/main.8d0ad8a8.js.map",
+    "main.cfada48a.js.map": "/smilemaker/static/js/main.cfada48a.js.map",
     "453.670e15c7.chunk.js.map": "/smilemaker/static/js/453.670e15c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cc3a900b.css",
-    "static/js/main.8d0ad8a8.js"
+    "static/js/main.cfada48a.js"
   ]
 }
