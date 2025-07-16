@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Service.css';
 
+// Static service definitions
 const services = [
   {
     title: 'Wedding Photography',
@@ -34,13 +35,16 @@ const services = [
   }
 ];
 
+// Dynamically import all images from the images folder
+const imagesContext = require.context('./images', false, /\.(jpe?g|png)$/);
+
 function Service() {
   const [hovered, setHovered] = useState(null);
   const [modal, setModal] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  // Prevent background scroll when PhotoGridPopup is open
-  React.useEffect(() => {
+
+  useEffect(() => {
     if (typeof showMore === 'number') {
       const original = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
@@ -48,9 +52,7 @@ function Service() {
     }
   }, [showMore]);
 
-  // Helper to set shootType in contact form
   const handleEnquiry = (shootType) => {
-    // Save shootType to sessionStorage so Contact can read it
     if (typeof window !== 'undefined') {
       window.sessionStorage.setItem('autofillShootType', shootType);
     }
@@ -58,7 +60,7 @@ function Service() {
     setModal(null);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const id = 'caveat-font';
     if (!document.getElementById(id)) {
       const link = document.createElement('link');
@@ -68,6 +70,7 @@ function Service() {
       document.head.appendChild(link);
     }
   }, []);
+
   return (
     <section id="service" className="service-section">
       <h1 className="service-title" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 44 }}>Service</h1>
@@ -103,16 +106,11 @@ function Service() {
                 <span
                   className="service-popup-tip service-popup-btn"
                   style={{
-                    display: 'inline-block',
                     marginTop: -10,
                     marginBottom: 8,
-                    marginLeft: 0,
-                    marginRight: 0,
-                    alignSelf: 'flex-start',
                     padding: '6px 18px',
                     borderRadius: '18px',
                     background: 'rgba(20,20,20,0.85)',
-                    boxShadow: '0 4px 24px 0 rgba(31, 38, 135, 0.10)',
                     backdropFilter: 'blur(8px)',
                     border: '1px solid rgba(255,255,255,0.18)',
                     color: '#fff',
@@ -131,7 +129,6 @@ function Service() {
         ))}
       </div>
 
-      {/* More photos popup (grid) */}
       {typeof showMore === 'number' && (
         <PhotoGridPopup
           service={services[showMore]}
@@ -140,14 +137,12 @@ function Service() {
         />
       )}
 
-      {/* Large photo popup (from grid) */}
       {selectedPhoto && (
         <div className="service-photo-bg" onClick={() => setSelectedPhoto(null)} style={{ position:'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'rgba(0,0,0,0.7)', zIndex: 10001, display:'flex', alignItems:'center', justifyContent:'center' }}>
           <img src={selectedPhoto} alt="Large view" style={{ maxWidth:'90vw', maxHeight:'80vh', borderRadius:18, boxShadow:'0 8px 32px rgba(0,0,0,0.25)' }} />
         </div>
       )}
 
-      {/* Service modal popup */}
       {modal !== null && (
         <div className="service-modal-bg" onClick={() => setModal(null)}>
           <div className="service-modal" onClick={e => e.stopPropagation()}>
@@ -155,14 +150,7 @@ function Service() {
             <div className="service-modal-content" style={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: 200 }}>
               <h2 style={{marginBottom: 8}}>{services[modal].title}</h2>
               <p style={{marginBottom: 24}}>{services[modal].details}</p>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 12,
-                marginTop: 'auto',
-                width: '100%',
-                alignItems: 'center',
-              }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 'auto', width: '100%', alignItems: 'center' }}>
                 <button
                   style={{
                     width: '100%',
@@ -176,7 +164,6 @@ function Service() {
                     border: '1.5px solid #fff3',
                     boxShadow: '0 4px 24px 0 rgba(31, 38, 135, 0.10)',
                     cursor: 'pointer',
-                    transition: 'background 0.2s, color 0.2s',
                     backdropFilter: 'blur(8px)',
                   }}
                   onClick={() => { setShowMore(modal); setModal(null); }}
@@ -196,7 +183,6 @@ function Service() {
                     border: 'none',
                     boxShadow: '0 4px 24px 0 rgba(31, 38, 135, 0.10)',
                     cursor: 'pointer',
-                    transition: 'background 0.2s, color 0.2s',
                   }}
                   onClick={() => handleEnquiry(services[modal].title)}
                 >
@@ -211,8 +197,15 @@ function Service() {
   );
 }
 
-// PhotoGridPopup component (must be outside Service)
+// Popup to show grid of photos
 export function PhotoGridPopup({ service, onClose, onPhotoClick }) {
+  const imagePrefix = service.title.toLowerCase().replace(/ /g, '-');
+
+  const photoImages = imagesContext
+    .keys()
+    .filter(key => key.includes(imagePrefix + '-'))
+    .map(key => imagesContext(key));
+
   return (
     <div className="service-more-bg" onClick={onClose} style={{ position: 'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'rgba(0,0,0,0.55)', zIndex: 10000, display:'flex', alignItems:'center', justifyContent:'center' }}>
       <div className="service-more-grid glass" onClick={e => e.stopPropagation()} style={{
@@ -231,7 +224,7 @@ export function PhotoGridPopup({ service, onClose, onPhotoClick }) {
         alignItems: 'center',
         overflow: 'hidden',
       }}>
-        <h2 style={{marginBottom:24, color:'#222', fontWeight:700, fontSize:28, letterSpacing:1}}>{service.title} Photos</h2>
+        <h2 style={{marginBottom:24, color:'#222', fontWeight:700, fontSize:28}}>{service.title} Photos</h2>
         <div style={{ width: '100%', flex: 1, minHeight: 0, maxHeight: '60vh', overflowY: 'auto', marginBottom: 12 }}>
           <div style={{
             display:'grid',
@@ -239,34 +232,19 @@ export function PhotoGridPopup({ service, onClose, onPhotoClick }) {
             gap:12,
             width:'100%',
           }}>
-            {
-              (() => {
-                const images = [];
-                for (let i = 1; i <= 30; i++) {
-                  try {
-                    const img = require(`./images/${service.title.toLowerCase().replace(/ /g,'-')}-${i}.jpg`);
-                    images.push(
-                      <img
-                        key={i}
-                        src={img}
-                        alt={service.title + ' ' + i}
-                        style={{width:'100%', borderRadius:10, boxShadow:'0 1px 4px #0001', background:'#eee', display:'block', cursor:'pointer'}}
-                        onClick={() => onPhotoClick(img)}
-                      />
-                    );
-                  } catch (err) {
-                    // Image does not exist, skip
-                  }
-                }
-                if (images.length === 0) {
-                  return <div style={{gridColumn:'1/-1', textAlign:'center', color:'#888', fontSize:18, padding:32}}>No photos available.</div>;
-                }
-                return images;
-              })()
-            }
+            {photoImages.length > 0 ? photoImages.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt={`${service.title} ${i + 1}`}
+                style={{ width:'100%', borderRadius:10, boxShadow:'0 1px 4px #0001', background:'#eee', display:'block', cursor:'pointer' }}
+                onClick={() => onPhotoClick(img)}
+              />
+            )) : (
+              <div style={{gridColumn:'1/-1', textAlign:'center', color:'#888', fontSize:18, padding:32}}>No photos available.</div>
+            )}
           </div>
         </div>
-        {/* Floating close button */}
         <button
           onClick={onClose}
           aria-label="Close"
@@ -288,7 +266,6 @@ export function PhotoGridPopup({ service, onClose, onPhotoClick }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transition: 'background 0.2s, color 0.2s',
           }}
         >
           ×

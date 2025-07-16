@@ -3,7 +3,7 @@ import { services, PhotoGridPopup } from './Service';
 
 // Dynamically import all images in ./images
 const importAll = (r) => r.keys().map(r);
-const galleryImages = importAll(require.context('./images', false, /\.(jpe?g|webp)$/));
+const galleryImages = importAll(require.context('./images', false, /\.(jpe?g|webp)$/i));
 
 function Gallery() {
   const [current, setCurrent] = useState(0);
@@ -88,6 +88,9 @@ function Gallery() {
                 zIndex: z,
                 opacity,
                 transition: 'all 0.6s cubic-bezier(.4,0,.2,1)'
+              }}
+              onError={(e) => {
+                e.target.style.display = 'none';
               }}
             />
           );
@@ -188,6 +191,7 @@ function Gallery() {
               background: '#fff',
             }}
             onClick={e => e.stopPropagation()}
+            onError={(e) => e.target.style.display = 'none'}
           />
         </div>
       )}
@@ -304,6 +308,7 @@ function Gallery() {
               background: '#fff',
             }}
             onClick={e => e.stopPropagation()}
+            onError={(e) => e.target.style.display = 'none'}
           />
         </div>
       )}

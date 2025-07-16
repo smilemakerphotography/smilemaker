@@ -5,22 +5,50 @@ import slide3 from './images/hero-slide3.jpg';
 import './App.css';
 import './HomeSlides.css';
 
-
 const slides = [slide1, slide2, slide3];
 
 function HomeSlides() {
   const [current, setCurrent] = useState(0);
   const timeoutRef = useRef(null);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
+  // Preload all images
   useEffect(() => {
+    let loaded = 0;
+
+    slides.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loaded++;
+        if (loaded === slides.length) {
+          setImagesLoaded(true);
+        }
+      };
+    });
+  }, []);
+
+  // Start slideshow only after all images are loaded
+  useEffect(() => {
+    if (!imagesLoaded) return;
+
     timeoutRef.current = setTimeout(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 4000);
-    return () => clearTimeout(timeoutRef.current);
-  }, [current]);
 
-  // Responsive: adjust h1 and p font size for mobile
+    return () => clearTimeout(timeoutRef.current);
+  }, [current, imagesLoaded]);
+
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600;
+
+  if (!imagesLoaded) {
+    return (
+      <div className="preloader">
+        <p>Loading images...</p>
+      </div>
+    );
+  }
+
   return (
     <section id="home" className="hero-slideshow" style={{ marginBottom: 0, paddingBottom: 0 }}>
       {slides.map((src, idx) => (
