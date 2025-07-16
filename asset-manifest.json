@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/smilemaker/static/css/main.cc3a900b.css",
-    "main.js": "/smilemaker/static/js/main.35cb442e.js",
+    "main.css": "/smilemaker/static/css/main.a583f777.css",
+    "main.js": "/smilemaker/static/js/main.9a342093.js",
     "static/js/453.670e15c7.chunk.js": "/smilemaker/static/js/453.670e15c7.chunk.js",
     "static/media/hero-slide1.jpg": "/smilemaker/static/media/hero-slide1.57f115fe72f20ff600ba.jpg",
     "static/media/wedding-photography-1.jpg": "/smilemaker/static/media/wedding-photography-1.57f115fe72f20ff600ba.jpg",
@@ -24,12 +24,12 @@
     "static/media/service-model.jpeg": "/smilemaker/static/media/service-model.0a910e44c9986f9243e4.jpeg",
     "static/media/hero-slide3.jpg": "/smilemaker/static/media/hero-slide3.9aa46c4cd6076fd790e2.jpg",
     "index.html": "/smilemaker/index.html",
-    "main.cc3a900b.css.map": "/smilemaker/static/css/main.cc3a900b.css.map",
-    "main.35cb442e.js.map": "/smilemaker/static/js/main.35cb442e.js.map",
+    "main.a583f777.css.map": "/smilemaker/static/css/main.a583f777.css.map",
+    "main.9a342093.js.map": "/smilemaker/static/js/main.9a342093.js.map",
     "453.670e15c7.chunk.js.map": "/smilemaker/static/js/453.670e15c7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cc3a900b.css",
-    "static/js/main.35cb442e.js"
+    "static/css/main.a583f777.css",
+    "static/js/main.9a342093.js"
   ]
 }
