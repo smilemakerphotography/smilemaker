@@ -42,7 +42,8 @@ function Service() {
   const [hovered, setHovered] = useState(null);
   const [modal, setModal] = useState(null);
   const [showMore, setShowMore] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
+  const [currentPhotoList, setCurrentPhotoList] = useState([]);
 
   useEffect(() => {
     if (typeof showMore === 'number') {
@@ -70,6 +71,43 @@ function Service() {
       document.head.appendChild(link);
     }
   }, []);
+
+  // When showMore is set, prepare photo list for zoom view navigation
+  useEffect(() => {
+    if (typeof showMore === 'number') {
+      const service = services[showMore];
+      const imagePrefix = service.title.toLowerCase().replace(/ /g, '-');
+      const photoImages = imagesContext
+        .keys()
+        .filter(key => key.includes(imagePrefix + '-'))
+        .map(key => imagesContext(key));
+      setCurrentPhotoList(photoImages);
+    } else {
+      setCurrentPhotoList([]);
+      setSelectedPhotoIndex(null);
+    }
+  }, [showMore]);
+
+  const openZoomView = (img) => {
+    const index = currentPhotoList.indexOf(img);
+    setSelectedPhotoIndex(index);
+  };
+
+  const closeZoomView = () => {
+    setSelectedPhotoIndex(null);
+  };
+
+  const nextPhoto = () => {
+    if (selectedPhotoIndex !== null) {
+      setSelectedPhotoIndex((selectedPhotoIndex + 1) % currentPhotoList.length);
+    }
+  };
+
+  const prevPhoto = () => {
+    if (selectedPhotoIndex !== null) {
+      setSelectedPhotoIndex((selectedPhotoIndex - 1 + currentPhotoList.length) % currentPhotoList.length);
+    }
+  };
 
   return (
     <section id="service" className="service-section">
@@ -129,20 +167,7 @@ function Service() {
         ))}
       </div>
 
-      {typeof showMore === 'number' && (
-        <PhotoGridPopup
-          service={services[showMore]}
-          onClose={() => setShowMore(false)}
-          onPhotoClick={img => setSelectedPhoto(img)}
-        />
-      )}
-
-      {selectedPhoto && (
-        <div className="service-photo-bg" onClick={() => setSelectedPhoto(null)} style={{ position:'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'rgba(0,0,0,0.7)', zIndex: 10001, display:'flex', alignItems:'center', justifyContent:'center' }}>
-          <img src={selectedPhoto} alt="Large view" style={{ maxWidth:'90vw', maxHeight:'80vh', borderRadius:18, boxShadow:'0 8px 32px rgba(0,0,0,0.25)' }} />
-        </div>
-      )}
-
+      {/* Modal for service details */}
       {modal !== null && (
         <div className="service-modal-bg" onClick={() => setModal(null)}>
           <div className="service-modal" onClick={e => e.stopPropagation()}>
@@ -193,61 +218,206 @@ function Service() {
           </div>
         </div>
       )}
+
+      {/* Photo grid popup */}
+      {typeof showMore === 'number' && (
+        <PhotoGridPopup
+          service={services[showMore]}
+          onClose={() => setShowMore(false)}
+          onPhotoClick={openZoomView}
+        />
+      )}
+
+      {/* Zoomed photo view with navigation */}
+      {selectedPhotoIndex !== null && currentPhotoList.length > 0 && (
+        <div
+          className="service-photo-bg"
+          onClick={closeZoomView}
+          style={{
+            position: 'fixed',
+            top:0,
+            left:0,
+            width:'100vw',
+            height:'100vh',
+            background:'rgba(0,0,0,0.85)',
+            zIndex: 10001,
+            display:'flex',
+            alignItems:'center',
+            justifyContent:'center',
+            userSelect: 'none',
+          }}
+        >
+          <button
+            aria-label="Previous photo"
+            onClick={e => { e.stopPropagation(); prevPhoto(); }}
+            style={{
+              position:'fixed',
+              left: '24px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              fontSize: '3rem',
+              color: '#eee',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 10002,
+              userSelect: 'none',
+            }}
+          >
+            ‹
+          </button>
+          <img
+            src={currentPhotoList[selectedPhotoIndex]}
+            alt={`Zoomed photo ${selectedPhotoIndex + 1}`}
+            style={{ maxHeight: '90vh', maxWidth: '90vw', borderRadius: 20, boxShadow: '0 8px 48px rgba(0,0,0,0.6)' }}
+            onClick={e => e.stopPropagation()}
+          />
+          <button
+            aria-label="Next photo"
+            onClick={e => { e.stopPropagation(); nextPhoto(); }}
+            style={{
+              position:'fixed',
+              right: '24px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              fontSize: '3rem',
+              color: '#eee',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 10002,
+              userSelect: 'none',
+            }}
+          >
+            ›
+          </button>
+          <button
+            aria-label="Close zoom view"
+            onClick={closeZoomView}
+            style={{
+              position:'fixed',
+              top:'24px',
+              right:'24px',
+              fontSize: '2.5rem',
+              color: '#eee',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 10002,
+              userSelect: 'none',
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
     </section>
   );
 }
 
-// Popup to show grid of photos
-export function PhotoGridPopup({ service, onClose, onPhotoClick }) {
+function PhotoGridPopup({ service, onClose, onPhotoClick }) {
+  // Collect photos for the service
   const imagePrefix = service.title.toLowerCase().replace(/ /g, '-');
-
   const photoImages = imagesContext
     .keys()
     .filter(key => key.includes(imagePrefix + '-'))
     .map(key => imagesContext(key));
 
   return (
-    <div className="service-more-bg" onClick={onClose} style={{ position: 'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'rgba(0,0,0,0.55)', zIndex: 10000, display:'flex', alignItems:'center', justifyContent:'center' }}>
-      <div className="service-more-grid glass" onClick={e => e.stopPropagation()} style={{
-        position: 'relative',
-        background: 'rgba(255,255,255,0.18)',
-        borderRadius: 24,
-        padding: 32,
-        maxWidth: 900,
-        width: '95vw',
-        maxHeight: '80vh',
-        boxShadow: '0 8px 32px rgba(31,38,135,0.18)',
-        backdropFilter: 'blur(18px)',
-        border: '1.5px solid #fff3',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        overflow: 'hidden',
-      }}>
-        <h2 style={{marginBottom:24, color:'#222', fontWeight:700, fontSize:28}}>{service.title} Photos</h2>
-        <div style={{ width: '100%', flex: 1, minHeight: 0, maxHeight: '60vh', overflowY: 'auto', marginBottom: 12 }}>
-          <div style={{
-            display:'grid',
-            gridTemplateColumns:'repeat(auto-fit, minmax(160px,1fr))',
-            gap:12,
-            width:'100%',
-          }}>
+    <div
+      className="service-more-bg"
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        top:0,
+        left:0,
+        width:'100vw',
+        height:'100vh',
+        background:'rgba(0,0,0,0.55)',
+        backdropFilter: 'blur(8px)',
+        zIndex: 10000,
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+      }}
+    >
+      <div
+        className="service-more-grid"
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(15px)',
+          WebkitBackdropFilter: 'blur(15px)',
+          borderRadius: 24,
+          border: '1.5px solid rgba(255, 255, 255, 0.25)',
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+          padding: 32,
+          maxWidth: 900,
+          width: '95vw',
+          maxHeight: '80vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          overflow: 'hidden',
+          color: '#222',
+          position: 'relative',
+        }}
+      >
+        <h2 style={{ marginBottom: 24, color: '#222', fontWeight: 700, fontSize: 28 }}>
+          {service.title} Photos
+        </h2>
+        <div
+          style={{
+            width: '100%',
+            flex: 1,
+            minHeight: 0,
+            maxHeight: '60vh',
+            overflowY: 'auto',
+            marginBottom: 12,
+            borderRadius: 16,
+          }}
+        >
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(160px,1fr))',
+              gap: 12,
+              width: '100%',
+            }}
+          >
             {photoImages.length > 0 ? photoImages.map((img, i) => (
               <img
                 key={i}
                 src={img}
                 alt={`${service.title} ${i + 1}`}
-                style={{ width:'100%', borderRadius:10, boxShadow:'0 1px 4px #0001', background:'#eee', display:'block', cursor:'pointer' }}
+                style={{
+                  width: '100%',
+                  borderRadius: 16,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  display: 'block',
+                }}
                 onClick={() => onPhotoClick(img)}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.2)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                }}
               />
             )) : (
-              <div style={{gridColumn:'1/-1', textAlign:'center', color:'#888', fontSize:18, padding:32}}>No photos available.</div>
+              <div style={{ gridColumn: '1/-1', textAlign: 'center', color: '#888', fontSize: 18, padding: 32 }}>
+                No photos available.
+              </div>
             )}
           </div>
         </div>
         <button
           onClick={onClose}
-          aria-label="Close"
+          aria-label="Close photo grid"
           style={{
             position: 'absolute',
             top: 8,
@@ -275,5 +445,5 @@ export function PhotoGridPopup({ service, onClose, onPhotoClick }) {
   );
 }
 
+export { Service, services, PhotoGridPopup };
 export default Service;
-export { Service, services };

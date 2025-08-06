@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { services, PhotoGridPopup } from './Service';
 
-// Dynamically import all images in ./images
+// Helper to import all images
 const importAll = (r) => r.keys().map(r);
 const galleryImages = importAll(require.context('./images', false, /\.(jpe?g|webp)$/i));
 
@@ -10,7 +10,8 @@ function Gallery() {
   const [modal, setModal] = useState(null);
   const [showCategoryPopup, setShowCategoryPopup] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
+  const [currentPhotoList, setCurrentPhotoList] = useState([]);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
@@ -30,6 +31,27 @@ function Gallery() {
       document.head.appendChild(link);
     }
   }, []);
+
+  const openZoomView = (img, categoryIndex) => {
+    const prefix = services[categoryIndex].title.toLowerCase().replace(/ /g, '-');
+    const images = importAll(require.context('./images', false, /\.(jpe?g|png|webp)$/i))
+      .filter(src => src.includes(prefix + '-'));
+    setCurrentPhotoList(images);
+    setSelectedPhotoIndex(images.indexOf(img));
+  };
+
+  const closeZoomView = () => {
+    setSelectedPhotoIndex(null);
+    setCurrentPhotoList([]);
+  };
+
+  const nextPhoto = () => {
+    setSelectedPhotoIndex((prev) => (prev + 1) % currentPhotoList.length);
+  };
+
+  const prevPhoto = () => {
+    setSelectedPhotoIndex((prev) => (prev - 1 + currentPhotoList.length) % currentPhotoList.length);
+  };
 
   return (
     <section id="gallery" className="gallery-section" style={{
@@ -97,15 +119,9 @@ function Gallery() {
         })}
       </div>
 
-      {/* Arrow Buttons Below the Carousel */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: 20,
-        marginBottom: 24
-      }}>
-        <button
-          onClick={() => setCurrent((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
+      {/* Arrow Buttons */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginBottom: 24 }}>
+        <button onClick={() => setCurrent((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
           style={{
             border: 'none',
             borderRadius: '50%',
@@ -117,13 +133,8 @@ function Gallery() {
             fontSize: 24,
             cursor: 'pointer',
             boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-            transition: 'background 0.3s',
-          }}
-        >
-          ‹
-        </button>
-        <button
-          onClick={() => setCurrent((prev) => (prev + 1) % galleryImages.length)}
+          }}>‹</button>
+        <button onClick={() => setCurrent((prev) => (prev + 1) % galleryImages.length)}
           style={{
             border: 'none',
             borderRadius: '50%',
@@ -135,11 +146,7 @@ function Gallery() {
             fontSize: 24,
             cursor: 'pointer',
             boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-            transition: 'background 0.3s',
-          }}
-        >
-          ›
-        </button>
+          }}>›</button>
       </div>
 
       {/* More Button */}
@@ -155,14 +162,13 @@ function Gallery() {
           border: 'none',
           boxShadow: '0 4px 24px 0 rgba(31, 38, 135, 0.10)',
           cursor: 'pointer',
-          transition: 'background 0.2s, color 0.2s',
         }}
         onClick={() => setShowCategoryPopup(true)}
       >
         more
       </button>
 
-      {/* Modal View for Clicked Image */}
+      {/* Modal View */}
       {modal !== null && (
         <div
           style={{
@@ -275,41 +281,82 @@ function Gallery() {
         <PhotoGridPopup
           service={services[selectedCategory]}
           onClose={() => setSelectedCategory(null)}
-          onPhotoClick={setSelectedPhoto}
+          onPhotoClick={(img) => openZoomView(img, selectedCategory)}
         />
       )}
 
-      {/* Large photo popup from category */}
-      {selectedPhoto && (
+      {/* Zoomed Image Viewer */}
+      {selectedPhotoIndex !== null && currentPhotoList.length > 0 && (
         <div
+          onClick={closeZoomView}
           style={{
             position: 'fixed',
             top: 0,
             left: 0,
             width: '100vw',
             height: '100vh',
-            background: 'rgba(30,30,30,0.65)',
-            backdropFilter: 'blur(6px)',
+            background: 'rgba(0,0,0,0.85)',
             zIndex: 10001,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          onClick={() => setSelectedPhoto(null)}
         >
+          <button
+            onClick={(e) => { e.stopPropagation(); prevPhoto(); }}
+            style={{
+              position: 'fixed',
+              left: '24px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              fontSize: '3rem',
+              color: '#eee',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 10002,
+            }}
+          >‹</button>
           <img
-            src={selectedPhoto}
-            alt="Large view"
+            src={currentPhotoList[selectedPhotoIndex]}
+            alt={`Zoomed ${selectedPhotoIndex + 1}`}
             style={{
               maxWidth: '90vw',
-              maxHeight: '80vh',
+              maxHeight: '90vh',
               borderRadius: 20,
-              boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
-              background: '#fff',
+              boxShadow: '0 8px 48px rgba(0,0,0,0.6)'
             }}
             onClick={e => e.stopPropagation()}
-            onError={(e) => e.target.style.display = 'none'}
           />
+          <button
+            onClick={(e) => { e.stopPropagation(); nextPhoto(); }}
+            style={{
+              position: 'fixed',
+              right: '24px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              fontSize: '3rem',
+              color: '#eee',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 10002,
+            }}
+          >›</button>
+          <button
+            onClick={closeZoomView}
+            style={{
+              position: 'fixed',
+              top: '24px',
+              right: '24px',
+              fontSize: '2.5rem',
+              color: '#eee',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 10002,
+            }}
+          >×</button>
         </div>
       )}
     </section>

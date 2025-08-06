@@ -43,8 +43,45 @@ function HomeSlides() {
 
   if (!imagesLoaded) {
     return (
-      <div className="preloader">
-        <p>Loading images...</p>
+      <div
+        className="preloader-glass"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          height: '100vh',
+          width: '100vw',
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999,
+          flexDirection: 'column',
+          color: '#fff',
+        }}
+      >
+        <div
+          style={{
+            border: '4px solid rgba(255, 255, 255, 0.2)',
+            borderTop: '4px solid #f5a623',
+            borderRadius: '50%',
+            width: 50,
+            height: 50,
+            animation: 'spin 1s linear infinite',
+            marginBottom: 20,
+          }}
+        />
+        <p
+          style={{
+            fontSize: '1.2rem',
+            fontWeight: 500,
+            textShadow: '0 0 4px rgba(0,0,0,0.4)'
+          }}
+        >
+          Loading images...
+        </p>
       </div>
     );
   }
