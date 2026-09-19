@@ -5,6 +5,18 @@
   flex-direction: column;
   align-items: center;
 }
+.service-title {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 44px;
+  margin: 0;
+}
+.service-desc {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 24px;
+  margin: 0 0 24px;
+}
 
 /* Service cards container */
 .service-cards {
@@ -13,6 +25,7 @@
   gap: 2.5rem;
   justify-content: center;
   margin-top: 2rem;
+  padding: 0 16px;
 }
 
 /* Glassmorphic card */
@@ -34,10 +47,16 @@
   transition: transform 0.25s cubic-bezier(0.4, 2, 0.6, 1), box-shadow 0.25s;
 }
 
-.service-card:hover {
+.service-card.hovered,
+.service-card:focus-visible {
   transform: scale(1.06) translateY(-8px);
   box-shadow: 0 16px 48px rgba(31, 38, 135, 0.22);
   z-index: 2;
+  outline: none;
+}
+.service-card:focus-visible {
+  outline: 3px solid #f5a623;
+  outline-offset: 3px;
 }
 
 .service-card img {
@@ -47,27 +66,32 @@
   border-bottom: 1.5px solid rgba(255, 255, 255, 0.18);
 }
 
-/* Card caption */
-.service-card-caption {
+/* Title under the image; slides up when the card is hovered/focused */
+.service-caption {
   font-size: 1.2rem;
   font-weight: bold;
   color: #222;
   padding: 1.2rem 1rem;
   text-align: center;
-  background: rgba(255, 255, 255, 0.25);
   width: 100%;
-  letter-spacing: 0.01em;
+  position: relative;
+  top: 50px;
+  transition: top 0.3s cubic-bezier(0.4, 2, 0.6, 1);
+  z-index: 2;
+}
+.service-caption--up {
+  top: 0;
 }
 
-/* Popup info at bottom */
-.service-card-popup {
+/* Short blurb + "more photos" button revealed at the bottom of the card */
+.service-popup {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
   color: #222;
-  padding: 1.2rem 1rem;
+  padding: 0.6rem 1rem 1rem;
   font-size: 1rem;
   border-radius: 0 0 24px 24px;
   opacity: 0;
@@ -76,82 +100,29 @@
   transition: opacity 0.25s, transform 0.25s;
   z-index: 3;
 }
-
-.service-card:hover .service-card-popup {
+.service-popup--open {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
-
-/* Modal background */
-.service-modal-bg {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(30, 30, 30, 0.45);
-  backdrop-filter: blur(8px);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.service-popup p {
+  margin: 0 0 10px;
 }
-
-/* Modal container */
-.service-modal {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 32px;
-  box-shadow: 0 8px 48px rgba(31, 38, 135, 0.22);
-  max-width: 540px;
-  width: 90vw;
-  padding: 2.5rem 2rem 2rem;
-  position: relative;
-  text-align: center;
-  animation: popIn 0.3s cubic-bezier(0.4, 2, 0.6, 1);
-}
-
-@keyframes popIn {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.service-modal img {
-  width: 100%;
-  max-height: 260px;
-  object-fit: cover;
+.service-popup-btn {
+  width: auto;
+  padding: 6px 18px;
+  font-size: 0.95rem;
   border-radius: 18px;
-  margin-bottom: 1.5rem;
 }
 
-.service-modal-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #222;
-}
-
-.service-modal-desc {
-  font-size: 1.1rem;
-  color: #444;
-  margin-bottom: 1.5rem;
-}
-
-.service-modal-close {
-  position: absolute;
-  top: 18px;
-  right: 24px;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: #888;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.service-modal-close:hover {
-  color: #f5a623;
+/* Touch devices have no hover: always show the blurb so "more photos" is reachable */
+@media (hover: none) {
+  .service-caption { top: 0; }
+  .service-popup {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    width: 100%;
+  }
 }

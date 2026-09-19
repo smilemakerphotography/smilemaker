@@ -1,85 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import logo from './images/logo.png'; // Adjust the path to your logo image
+import React, { useEffect, useState } from 'react';
+import logo from './images/logo.png';
 import './App.css';
 
+const links = [
+  ['home', 'Home'],
+  ['about', 'About'],
+  ['service', 'Service'],
+  ['gallery', 'Gallery'],
+  ['contact', 'Contact'],
+];
 
+const NAV_HEIGHT = 80;
 
 function NavBar() {
-  // Add Amatic SC font if not already loaded
-  useEffect(() => {
-    const id = 'amatic-font';
-    if (!document.getElementById(id)) {
-      const link = document.createElement('link');
-      link.id = id;
-      link.rel = 'stylesheet';
-      link.href = 'https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap';
-      document.head.appendChild(link);
-    }
-  }, []);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleMenuToggle = () => setMenuOpen(!menuOpen);
-  const handleLinkClick = (e) => {
+  // Close the mobile menu with Escape
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onKey = (e) => e.key === 'Escape' && setMenuOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
+  const handleLinkClick = (id) => (e) => {
+    e.preventDefault();
     setMenuOpen(false);
-    // Smooth scroll
-    const href = e.currentTarget.getAttribute('href');
-    if (href && href.startsWith('#')) {
-      e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) {
-        window.scrollTo({
-          top: target.offsetTop - 80, // adjust for navbar height
-          behavior: 'smooth'
-        });
-      }
-    }
+    const target = document.getElementById(id);
+    if (target) window.scrollTo({ top: target.offsetTop - NAV_HEIGHT, behavior: 'smooth' });
   };
 
   return (
-    <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}> 
-      <div className="navbar__logo" style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-        <img src={logo} alt="Logo" className={`navbar__logo-img${scrolled ? ' navbar__logo-img--small' : ''}`} style={{ transition: 'all 0.3s' }} />
+    <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`} aria-label="Main">
+      <a href="#home" className="navbar__logo" onClick={handleLinkClick('home')}>
+        <img src={logo} alt="Smile Maker Photography" className={`navbar__logo-img${scrolled ? ' navbar__logo-img--small' : ''}`} width="60" height="60" />
         {scrolled && (
-          <span
-            className="navbar__brand desktop-only"
-            style={{
-              fontFamily: 'Amatic SC, cursive',
-              fontWeight: 900,
-              fontSize: 28,
-              color: '#bfa76a',
-              letterSpacing: 1,
-              transition: 'all 0.3s',
-              marginLeft: 4,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 2
-            }}
-          >
-            <span style={{fontSize: 38, lineHeight: 1}}>S</span>mile{' '}
-            <span style={{fontSize: 38, lineHeight: 1}}>M</span>aker{' '}
-            <span style={{fontSize: 38, lineHeight: 1}}>P</span>hotography
+          <span className="navbar__brand desktop-only" aria-hidden="true">
+            <span className="navbar__brand-cap">S</span>mile{' '}
+            <span className="navbar__brand-cap">M</span>aker{' '}
+            <span className="navbar__brand-cap">P</span>hotography
           </span>
         )}
+      </a>
+      <div id="main-menu" className={`navbar__menu${menuOpen ? ' navbar__menu--open' : ''}`}>
+        {links.map(([id, label]) => (
+          <a key={id} href={`#${id}`} onClick={handleLinkClick(id)}>{label}</a>
+        ))}
       </div>
-      <div className={`navbar__menu${menuOpen ? ' navbar__menu--open' : ''}`}> 
-        <a href="#home" onClick={handleLinkClick}>Home</a>
-        <a href="#about" onClick={handleLinkClick}>About</a>
-        <a href="#service" onClick={handleLinkClick}>Service</a>
-        <a href="#gallery" onClick={handleLinkClick}>Gallery</a>
-        <a href="#contact" onClick={handleLinkClick}>Contact</a>
-      </div>
-      <button className="navbar__toggle" onClick={handleMenuToggle} aria-label="Toggle menu" style={{ background: 'none', border: 'none', padding: 0, marginLeft: 8, cursor: 'pointer' }}>
-        <span className="navbar__hamburger" style={{ background: '#f5a623' }}></span>
-        <span className="navbar__hamburger" style={{ background: '#f5a623' }}></span>
-        <span className="navbar__hamburger" style={{ background: '#f5a623' }}></span>
+      <button
+        className="navbar__toggle"
+        onClick={() => setMenuOpen((o) => !o)}
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={menuOpen}
+        aria-controls="main-menu"
+      >
+        <span className="navbar__hamburger" />
+        <span className="navbar__hamburger" />
+        <span className="navbar__hamburger" />
       </button>
     </nav>
   );

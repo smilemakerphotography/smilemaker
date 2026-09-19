@@ -1,38 +1,54 @@
-"""Resize and compress everything in src/images for the web.
+"""Prepare photos in src/images for the web.
 
-Run after adding new photos:  python scripts/compress-images.py
-Photos: max 1920px on the long edge, progressive JPEG q82, metadata stripped.
-Logo:   max 512px PNG (it is shown at ~60px in the navbar).
-Files that are already small are left untouched.
+Usage:  python scripts/compress-images.py
+Drop any .jpg/.jpeg/.png into src/images with the right name, then run this.
+
+- Photos are resized to max 1920px on the long edge and converted to WebP
+  (quality 82, metadata stripped). The original JPEG/PNG is removed so only
+  the .webp remains; keep your camera originals elsewhere.
+- logo.png is kept as PNG (transparency) and capped at 512px.
+- Files already in .webp are re-encoded only if they are larger than 1920px.
+
+Naming convention (the site reads images by prefix, see src/images.js):
+  hero-slideN             homepage slideshow
+  service-<slug>          card image for a service (service-wedding, service-baby ...)
+  <service-title-slug>-N  photos in a category, e.g. wedding-photography-3, baby-shoots-1
 """
-import glob, os, subprocess
+import glob, os
 from PIL import Image, ImageOps
 
-IMG_DIR = os.path.join(os.path.dirname(__file__), '..', 'src', 'images')
+IMG_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'src', 'images'))
 MAX_PHOTO = 1920
 MAX_LOGO = 512
 QUALITY = 82
 
 total_before = total_after = 0
 for path in sorted(glob.glob(os.path.join(IMG_DIR, '*'))):
-    ext = os.path.splitext(path)[1].lower()
-    if ext not in ('.jpg', '.jpeg', '.png'):
+    base, ext = os.path.splitext(path)
+    ext = ext.lower()
+    if ext not in ('.jpg', '.jpeg', '.png', '.webp'):
         continue
     before = os.path.getsize(path)
-    im = ImageOps.exif_transpose(Image.open(path))  # apply rotation from EXIF, then drop EXIF
-    is_logo = ext == '.png'
-    limit = MAX_LOGO if is_logo else MAX_PHOTO
-    if max(im.size) > limit:
-        im.thumbnail((limit, limit), Image.LANCZOS)
+    im = ImageOps.exif_transpose(Image.open(path))  # apply EXIF rotation, then drop EXIF
+    is_logo = os.path.basename(base) == 'logo' and ext == '.png'
+
     if is_logo:
-        im.save(path, 'PNG', optimize=True)
+        if max(im.size) > MAX_LOGO:
+            im.thumbnail((MAX_LOGO, MAX_LOGO), Image.LANCZOS)
+            im.save(path, 'PNG', optimize=True)
+        out = path
+    elif ext == '.webp' and max(im.size) <= MAX_PHOTO:
+        continue  # already web-ready
     else:
-        im.convert('RGB').save(path, 'JPEG', quality=QUALITY, optimize=True, progressive=True)
-    after = os.path.getsize(path)
-    if after >= before:  # compression didn't help, keep the original bytes
-        subprocess.run(['git','checkout','--',path], check=False)
-        after = before
+        if max(im.size) > MAX_PHOTO:
+            im.thumbnail((MAX_PHOTO, MAX_PHOTO), Image.LANCZOS)
+        out = base + '.webp'
+        im.save(out, 'WEBP', quality=QUALITY, method=6)
+        if out != path:
+            os.remove(path)
+
+    after = os.path.getsize(out)
     total_before += before; total_after += after
-    print(f'{os.path.basename(path):32} {im.size[0]}x{im.size[1]:<5} {before/1024:8.0f} KB -> {after/1024:6.0f} KB')
+    print(f'{os.path.basename(out):32} {im.size[0]}x{im.size[1]:<5} {before/1024:7.0f} KB -> {after/1024:6.0f} KB')
 
 print(f'\nTotal: {total_before/1024/1024:.1f} MB -> {total_after/1024/1024:.1f} MB')

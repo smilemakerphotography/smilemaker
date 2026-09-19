@@ -1,121 +1,54 @@
-import React, { useEffect, useRef, useState } from 'react';
-import slide1 from './images/hero-slide1.jpg';
-import slide2 from './images/hero-slide2.jpg';
-import slide3 from './images/hero-slide3.jpg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { heroSlides as slides } from './images';
+import useIsMobile from './hooks/useIsMobile';
 import './HomeSlides.css';
 
-const slides = [slide1, slide2, slide3];
+const INTERVAL_MS = 4000;
 
 function HomeSlides() {
   const [current, setCurrent] = useState(0);
-  const timeoutRef = useRef(null);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const isMobile = useIsMobile();
 
-  // Preload all images
+  // Show slide 1 straight away; the crossfade only starts once the next
+  // slide has actually arrived, so the user never sees a blank frame.
   useEffect(() => {
-    let loaded = 0;
-
-    slides.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        loaded++;
-        if (loaded === slides.length) {
-          setImagesLoaded(true);
-        }
-      };
-    });
-  }, []);
-
-  // Start slideshow only after all images are loaded
-  useEffect(() => {
-    if (!imagesLoaded) return;
-
-    timeoutRef.current = setTimeout(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 4000);
-
-    return () => clearTimeout(timeoutRef.current);
-  }, [current, imagesLoaded]);
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600;
-
-  if (!imagesLoaded) {
-    return (
-      <div
-        className="preloader-glass"
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          height: '100vh',
-          width: '100vw',
-          background: 'rgba(255, 255, 255, 0.05)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 9999,
-          flexDirection: 'column',
-          color: '#fff',
-        }}
-      >
-        <div
-          style={{
-            border: '4px solid rgba(255, 255, 255, 0.2)',
-            borderTop: '4px solid #f5a623',
-            borderRadius: '50%',
-            width: 50,
-            height: 50,
-            animation: 'spin 1s linear infinite',
-            marginBottom: 20,
-          }}
-        />
-        <p
-          style={{
-            fontSize: '1.2rem',
-            fontWeight: 500,
-            textShadow: '0 0 4px rgba(0,0,0,0.4)'
-          }}
-        >
-          Loading images...
-        </p>
-      </div>
-    );
-  }
+    if (slides.length < 2) return undefined;
+    let cancelled = false;
+    const nextIdx = (current + 1) % slides.length;
+    const img = new Image();
+    img.src = slides[nextIdx];
+    const timer = setTimeout(() => {
+      const advance = () => { if (!cancelled) setCurrent(nextIdx); };
+      if (img.complete) advance();
+      else { img.onload = advance; img.onerror = advance; }
+    }, INTERVAL_MS);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [current]);
 
   return (
-    <section id="home" className="hero-slideshow" style={{ marginBottom: 0, paddingBottom: 0 }}>
+    <section id="home" className="hero-slideshow">
       {slides.map((src, idx) => (
         <img
-          key={idx}
+          key={src}
           src={src}
-          alt={`Slide ${idx + 1}`}
+          alt=""
           className={`slide-img${idx === current ? ' active' : ''}`}
+          // First slide is the LCP element: fetch it first. Others can wait.
+          fetchPriority={idx === 0 ? 'high' : 'low'}
+          loading={idx === 0 ? 'eager' : 'lazy'}
+          decoding="async"
         />
       ))}
       <div className="hero-overlay">
-        <h1 style={{ fontSize: isMobile ? '2.1rem' : '3.2vw', lineHeight: isMobile ? 1.18 : 1.1, textAlign: 'center', color: '#fff', fontWeight: 900 }}>
+        <h1 className={`hero-title${isMobile ? ' hero-title--mobile' : ''}`}>
           We Frame Emotions, Not<br />Just Faces
         </h1>
-        <p style={{ fontSize: isMobile ? '1.08rem' : '1.5vw', color: '#f5d488', marginBottom: isMobile ? '1.2rem' : '2.5rem', textAlign: 'center', fontWeight: 600 }}>
+        <p className={`hero-subtitle${isMobile ? ' hero-subtitle--mobile' : ''}`}>
           Wedding | Model | Portfolio | Outdoor Photography | Baby Shoots
         </p>
         <button
-          style={{
-            background: '#f5a623',
-            color: '#222',
-            fontWeight: 'bold',
-            fontSize: isMobile ? '1.08rem' : '1.2rem',
-            border: 'none',
-            borderRadius: '6px',
-            padding: isMobile ? '0.7rem 1.5rem' : '0.9rem 2.2rem',
-            cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
-          }}
-          onClick={() => document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' })}
+          className="hero-cta"
+          onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
         >
           View Gallery
         </button>
