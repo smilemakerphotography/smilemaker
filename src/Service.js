@@ -268,7 +268,7 @@ function Service() {
           </button>
           <img
             src={currentPhotoList[selectedPhotoIndex]}
-            alt={`Zoomed photo ${selectedPhotoIndex + 1}`}
+            alt={`${services[showMore]?.title ?? "Gallery"} ${selectedPhotoIndex + 1} of ${currentPhotoList.length}`}
             style={{ maxHeight: '90vh', maxWidth: '90vw', borderRadius: 20, boxShadow: '0 8px 48px rgba(0,0,0,0.6)' }}
             onClick={e => e.stopPropagation()}
           />
