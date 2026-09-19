@@ -76,3 +76,11 @@ close the tab and reopen it).
 Text is in code files, so ask your developer — or, if you are comfortable,
 edit `src/images.js` on GitHub (the pencil icon), change only the words
 inside the quotes, and commit. The site rebuilds the same way.
+
+---
+
+## If you have the project on your computer (developer / laptop)
+
+Instead of github.com you can copy photos into the folders under
+`src\images\` and double-click **`publish-photos.bat`**. It shows what will
+change, asks for a Y, uploads it, and opens the progress page.
