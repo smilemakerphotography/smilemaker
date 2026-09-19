@@ -1,0 +1,75 @@
+# Publishes the website automatically.
+#
+# Every time anything is pushed to `main` (including photos uploaded through
+# the GitHub website), this:
+#   1. shrinks any new photos and commits the shrunk versions back,
+#   2. builds the site,
+#   3. publishes it to GitHub Pages (the `gh-pages` branch).
+# Takes about 3 minutes. Progress is visible under the "Actions" tab.
+
+name: Build & publish site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # The compress step commits with this message; don't loop on our own commit.
+    if: "!contains(github.event.head_commit.message, '[auto] compress photos')"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Shrink new photos
+        run: |
+          pip install --quiet pillow pillow-heif
+          python scripts/compress-images.py
+
+      - name: Commit shrunk photos back to main
+        run: |
+          git add -A src/images
+          if git diff --cached --quiet; then
+            echo "No photo changes."
+          else
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "[auto] compress photos"
+            git push
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: CI=true npx react-scripts test --watchAll=false
+
+      - name: Build
+        run: CI=true npm run build
+
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          publish_branch: gh-pages
+          force_orphan: true

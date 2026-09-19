@@ -6,7 +6,7 @@ import './overlays.css';
 
 // Grid of every photo in a service category; click one to open the Lightbox.
 export default function PhotoGridPopup({ service, onClose }) {
-  const photos = categoryPhotos(service.title);
+  const photos = categoryPhotos(service);
   const [zoom, setZoom] = useState(null);
   useOverlay({ onClose });
 

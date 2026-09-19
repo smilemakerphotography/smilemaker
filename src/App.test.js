@@ -7,7 +7,7 @@ jest.mock('./images', () => ({
   galleryImages: ['hero1.webp', 'service-wedding.webp'],
   categoryPhotos: () => [],
   services: [
-    { title: 'Wedding Photography', image: 'service-wedding.webp', short: 'short', details: 'details' },
+    { id: 'wedding', title: 'Wedding Photography', image: 'service-wedding.webp', short: 'short', details: 'details' },
   ],
 }));
 
