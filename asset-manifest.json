@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/smilemaker/static/css/main.f13f1bc7.css",
+    "main.js": "/smilemaker/static/js/main.283e8885.js",
+    "static/js/453.64f7cc25.chunk.js": "/smilemaker/static/js/453.64f7cc25.chunk.js",
+    "static/media/01-wedding-blessing.webp": "/smilemaker/static/media/01-wedding-blessing.bd12bd326411db4c2ff6.webp",
+    "static/media/01.webp": "/smilemaker/static/media/01.a7de0fcd87d950596b5f.webp",
+    "static/media/06.webp": "/smilemaker/static/media/06.1fb6856b4a7cddc91ac5.webp",
+    "static/media/03.webp": "/smilemaker/static/media/03.9b34209b37ee7c49f778.webp",
+    "static/media/02-couple.webp": "/smilemaker/static/media/02-couple.a198e02fde63491af9c3.webp",
+    "static/media/02.webp": "/smilemaker/static/media/02.2470c0d29b80dd189ecd.webp",
+    "static/media/04.webp": "/smilemaker/static/media/04.752db55dd0823823f369.webp",
+    "static/media/07.webp": "/smilemaker/static/media/07.9c4938c3a92cbe9bc7bf.webp",
+    "static/media/05.webp": "/smilemaker/static/media/05.bcd09415f3cf7fb43b21.webp",
+    "static/media/cover.webp": "/smilemaker/static/media/cover.c190d30b9f657fac1db3.webp",
+    "static/media/08.webp": "/smilemaker/static/media/08.778718fd946558aa1f4b.webp",
+    "static/media/logo.png": "/smilemaker/static/media/logo.62c22d3c36c03409a9ed.png",
+    "static/media/03-garland.webp": "/smilemaker/static/media/03-garland.ec86d98bb21332cec7f1.webp",
+    "index.html": "/smilemaker/index.html",
+    "main.f13f1bc7.css.map": "/smilemaker/static/css/main.f13f1bc7.css.map",
+    "main.283e8885.js.map": "/smilemaker/static/js/main.283e8885.js.map",
+    "453.64f7cc25.chunk.js.map": "/smilemaker/static/js/453.64f7cc25.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f13f1bc7.css",
+    "static/js/main.283e8885.js"
+  ]
+}
